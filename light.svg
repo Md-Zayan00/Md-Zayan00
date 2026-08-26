@@ -1,0 +1,369 @@
+<svg width="880" height="520" viewBox="0 0 880 520" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- CRT Scanlines Pattern -->
+    <pattern id="scanlines" width="100" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="100" y2="0" stroke="rgba(0, 0, 0, 0.08)" stroke-width="1.6" />
+    </pattern>
+
+    <!-- Laser Beam Vertical Flare -->
+    <linearGradient id="beamGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dc2626" stop-opacity="0" />
+      <stop offset="45%" stop-color="#dc2626" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#ef4444" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#dc2626" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Laser Horizontal Flare -->
+    <linearGradient id="lineFlare" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#dc2626" stop-opacity="0" />
+      <stop offset="20%" stop-color="#dc2626" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="80%" stop-color="#dc2626" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Occlusion Mask for Dynamic Laser Vanish Effect -->
+    <mask id="scan-mask">
+      <rect x="0" y="0" width="880" height="520" fill="white" />
+      <g class="laser-scanner">
+        <rect x="0" y="-12" width="880" height="24" fill="black" opacity="0.92" />
+        <rect x="0" y="-4" width="880" height="8" fill="black" opacity="1" />
+      </g>
+    </mask>
+
+    <style>
+      .term-font { font-family: "Courier New", Courier, "Lucida Console", monospace; }
+      .bold { font-weight: 900; }
+      .text-primary { fill: #1f0d11; }
+      .text-accent { fill: #dc2626; }
+      .text-dim { fill: #995c64; }
+
+      /* Laser Scan Animation */
+      .laser-scanner {
+        animation: scanSweep 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+      }
+
+      /* Typewriter Load In Animations */
+      .type-in {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        animation: terminalType 0.8s steps(24, end) forwards;
+      }
+
+      .fade-in {
+        opacity: 0;
+        animation: bootFade 0.6s ease-out forwards;
+      }
+
+      .seq-1 { animation-delay: 0.1s; }
+      .seq-2 { animation-delay: 0.3s; }
+      .seq-3 { animation-delay: 0.6s; }
+      .seq-4 { animation-delay: 0.9s; }
+      .seq-5 { animation-delay: 1.2s; }
+      .seq-6 { animation-delay: 1.5s; }
+
+      /* Real-Time ECG Heartbeat Animation */
+      .ecg-line {
+        stroke-dasharray: 260, 544;
+        stroke-dashoffset: 804;
+        animation: ecgTrack 2.8s linear infinite;
+      }
+
+      .pulse-glow {
+        animation: pulseHeart 1.4s ease-in-out infinite alternate;
+      }
+
+      /* Clean Targeted Glitch Cycling for SAGAFLOW */
+      .g-state-base { animation: glitchBase 5s infinite; }
+      .g-state-1 { animation: glitchCipher1 5s infinite; fill: #ef4444; }
+      .g-state-2 { animation: glitchCipher2 5s infinite; fill: #dc2626; }
+      .g-state-3 { animation: glitchBlocks 5s infinite; fill: #ef4444; }
+
+      @keyframes glitchBase {
+        0%, 82%, 100% { opacity: 1; visibility: visible; }
+        82.1%, 97.9% { opacity: 0; visibility: hidden; }
+      }
+      @keyframes glitchCipher1 {
+        0%, 82%, 88%, 100% { opacity: 0; visibility: hidden; }
+        82.1%, 87.9% { opacity: 1; visibility: visible; }
+      }
+      @keyframes glitchCipher2 {
+        0%, 88%, 93%, 100% { opacity: 0; visibility: hidden; }
+        88.1%, 92.9% { opacity: 1; visibility: visible; }
+      }
+      @keyframes glitchBlocks {
+        0%, 93%, 98%, 100% { opacity: 0; visibility: hidden; }
+        93.1%, 97.9% { opacity: 1; visibility: visible; }
+      }
+
+      @keyframes terminalType {
+        to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+      }
+
+      @keyframes bootFade {
+        to { opacity: 1; }
+      }
+
+      @keyframes ecgTrack {
+        to { stroke-dashoffset: 0; }
+      }
+
+      @keyframes pulseHeart {
+        0% { filter: drop-shadow(0 0 1px #dc2626); opacity: 0.75; }
+        100% { filter: drop-shadow(0 0 4px #ef4444); opacity: 1; }
+      }
+
+      @keyframes scanSweep {
+        0% { transform: translateY(25px); }
+        100% { transform: translateY(490px); }
+      }
+    </style>
+  </defs>
+
+  <!-- Static Canvas Background -->
+  <rect width="100%" height="100%" fill="#fcf5f5" rx="8" />
+
+  <!-- Outer Technical Casing -->
+  <rect x="14" y="14" width="852" height="492" fill="#f5e8e8" stroke="#cca0a6" stroke-width="2" rx="2" />
+  <rect x="20" y="20" width="840" height="480" fill="none" stroke="#e0c2c6" stroke-width="1" stroke-dasharray="6 3" />
+
+  <!-- Corner Reticles -->
+  <path d="M 24 36 L 24 24 L 36 24" fill="none" stroke="#dc2626" stroke-width="2" />
+  <path d="M 856 36 L 856 24 L 844 24" fill="none" stroke="#dc2626" stroke-width="2" />
+  <path d="M 24 484 L 24 496 L 36 496" fill="none" stroke="#dc2626" stroke-width="2" />
+  <path d="M 856 484 L 856 496 L 844 496" fill="none" stroke="#dc2626" stroke-width="2" />
+
+  <!-- ================= MASKED CONTENT LAYER ================= -->
+  <g mask="url(#scan-mask)">
+
+    <!-- Top Metadata Ribbon -->
+    <g class="term-font type-in seq-1">
+      <text x="38" y="38" class="text-dim" font-size="8.5" letter-spacing="1.5px">SEC-GRID // 34.0522° N, 118.2437° W</text>
+      <text x="735" y="38" class="text-dim" font-size="8.5" letter-spacing="1.5px">MEM: 0x8F4A2</text>
+    </g>
+
+    <!-- Top Header Ribbon -->
+    <g class="term-font">
+      <g class="type-in seq-1">
+        <text x="38" y="60" class="text-primary bold" font-size="18" letter-spacing="2px">警察 LAPD // SYSTEM CONSOLE</text>
+        <text x="590" y="58" class="text-dim" font-size="10.5" letter-spacing="1px">SIGNAL: NOMINAL</text>
+      </g>
+
+      <!-- Battery Readout -->
+      <g transform="translate(755, 46)" class="fade-in seq-2">
+        <rect x="0" y="0" width="46" height="15" fill="none" stroke="#dc2626" stroke-width="1.5" />
+        <rect x="4" y="3" width="7" height="9" fill="#dc2626" />
+        <rect x="13" y="3" width="7" height="9" fill="#dc2626" />
+        <rect x="22" y="3" width="7" height="9" fill="#dc2626" />
+        <rect x="31" y="3" width="7" height="9" fill="#dc2626" />
+        <rect x="47" y="4" width="2" height="7" fill="#dc2626" />
+      </g>
+    </g>
+
+    <line x1="38" y1="74" x2="842" y2="74" stroke="#cca0a6" stroke-width="1.5" />
+
+    <!-- ================= 3-COLUMN MAIN BODY ================= -->
+
+    <!-- COLUMN 1: AVATAR & IDENTIFICATION -->
+    <g class="term-font">
+      <rect x="38" y="88" width="175" height="205" fill="#ebdada" stroke="#cca0a6" stroke-width="1.5" />
+      
+      <g class="fade-in seq-2">
+        
+          <image x="40" y="90" width="171" height="201" href="data:image/png;base64,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" preserveAspectRatio="xMidYMid slice" />
+          <rect x="40" y="90" width="171" height="201" fill="url(#scanlines)" pointer-events="none" />
+        
+      </g>
+
+      <!-- Avatar Reticles -->
+      <path d="M 34 84 L 44 84 M 34 84 L 34 94" stroke="#dc2626" stroke-width="1.5" fill="none" />
+      <path d="M 217 84 L 207 84 M 217 84 L 217 94" stroke="#dc2626" stroke-width="1.5" fill="none" />
+      <path d="M 34 297 L 44 297 M 34 297 L 34 287" stroke="#dc2626" stroke-width="1.5" fill="none" />
+      <path d="M 217 297 L 207 297 M 217 297 L 217 287" stroke="#dc2626" stroke-width="1.5" fill="none" />
+
+      <!-- ID Readouts -->
+      <g class="type-in seq-3">
+        <text x="38" y="314" class="text-dim" font-size="9" letter-spacing="1px">OPERATOR ID:</text>
+        <text x="38" y="332" class="text-primary bold" font-size="15" letter-spacing="2px">KD6-3.7 // MD-ZAYAN00</text>
+        <text x="38" y="348" class="text-dim" font-size="8.5" letter-spacing="1px">CLEARANCE: ********* [L9]</text>
+      </g>
+    </g>
+
+    <line x1="230" y1="88" x2="230" y2="355" stroke="#e0c2c6" stroke-width="1" />
+
+    <!-- COLUMN 2: TECH STACK & ACTIVE VENTURE -->
+    <g class="term-font" transform="translate(245, 88)">
+      <g class="type-in seq-3">
+        <text x="0" y="14" class="text-primary bold" font-size="11.5" letter-spacing="1.2px">NEXUS 9 SRS // MD ZAYAN</text>
+        <text x="0" y="30" class="text-dim" font-size="9.5" letter-spacing="1px">SEC CODE: 25805-ZY-2049</text>
+        <text x="0" y="50" class="text-accent" font-size="11" letter-spacing="2px">ブレードランナー</text>
+        <text x="0" y="66" class="text-primary bold" font-size="11" letter-spacing="0.5px">FULL-STACK ARCHITECT | SE</text>
+        <line x1="0" y1="76" x2="275" y2="76" stroke="#cca0a6" stroke-width="1" />
+      </g>
+
+      <!-- Tech Stack Runtime Grid -->
+      <g class="fade-in seq-4" transform="translate(0, 88)">
+        <text x="0" y="0" class="text-dim bold" font-size="8" letter-spacing="1px">LANG:</text>
+        <rect x="34" y="-9" width="124" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="96" y="1" text-anchor="middle" class="text-primary bold" font-size="7.5">RUST TS JS PYTHON</text>
+
+        <rect x="162" y="-9" width="112" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="218" y="1" text-anchor="middle" class="text-accent bold" font-size="7">[LRN: C/C++ JAVA]</text>
+
+        <text x="0" y="16" class="text-dim bold" font-size="8" letter-spacing="1px">FE:</text>
+        <rect x="34" y="7" width="240" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="154" y="17" text-anchor="middle" class="text-primary bold" font-size="7.2">NEXT.JS REACT TAILWIND SHADCN VITE</text>
+
+        <text x="0" y="32" class="text-dim bold" font-size="8" letter-spacing="1px">SYS:</text>
+        <rect x="34" y="23" width="118" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="93" y="33" text-anchor="middle" class="text-primary bold" font-size="7.5">NODE.JS // TAURI</text>
+
+        <rect x="156" y="23" width="118" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="215" y="33" text-anchor="middle" class="text-primary bold" font-size="7.2">CI/CD: GH-ACTIONS</text>
+
+        <text x="0" y="48" class="text-dim bold" font-size="8" letter-spacing="1px">DB:</text>
+        <rect x="34" y="39" width="240" height="13" fill="#ebdada" stroke="#cca0a6" />
+        <text x="154" y="49" text-anchor="middle" class="text-primary bold" font-size="7.5">MYSQL // SQLITE [ACID COMPLIANT]</text>
+      </g>
+
+      <!-- Active Venture: SagaFlow Full-Time Glitch Block -->
+      <g transform="translate(0, 158)" class="fade-in seq-4">
+        <line x1="0" y1="0" x2="275" y2="0" stroke="#e0c2c6" stroke-width="1" stroke-dasharray="4 2" />
+        
+        <text x="0" y="14" class="text-dim bold" font-size="8.5" letter-spacing="1.2px">ACTIVE VENTURE:</text>
+        <text x="96" y="14" class="text-primary bold" font-size="8.5" letter-spacing="1.2px">WORKING ON</text>
+        
+        <g transform="translate(162, 14)">
+          <text x="0" y="0" class="text-accent bold g-state-base" font-size="8.5" letter-spacing="1.2px">SAGAFLOW</text>
+          <text x="0" y="0" class="bold g-state-1" font-size="8.5" letter-spacing="1.2px">5464FL0W</text>
+          <text x="0" y="0" class="bold g-state-2" font-size="8.5" letter-spacing="1.2px">§ΔGΔ_FLØ</text>
+          <text x="0" y="0" class="bold g-state-3" font-size="8.5" letter-spacing="1.2px">█▓▒░█▓▒░</text>
+        </g>
+
+        <text x="224" y="14" class="text-accent bold" font-size="8" letter-spacing="0.8px">[FULL-TIME]</text>
+      </g>
+    </g>
+
+    <line x1="535" y1="88" x2="535" y2="355" stroke="#e0c2c6" stroke-width="1" />
+
+    <!-- COLUMN 3: WALLACE CORP, DIRECTIVES (AUTOWRAPPED) & COMMS -->
+    <g class="term-font" transform="translate(550, 88)">
+      
+      <!-- Wallace Corp Indicator -->
+      <g class="fade-in seq-3">
+        <rect x="0" y="12" width="4" height="10" fill="#995c64" />
+        <rect x="6" y="6" width="4" height="16" fill="#995c64" />
+        <rect x="12" y="0" width="4" height="22" fill="#dc2626" />
+
+        <text x="24" y="12" class="text-primary bold" font-size="14" letter-spacing="3px">WALLACE</text>
+        <text x="24" y="22" class="text-dim" font-size="7.5" letter-spacing="1.5px">LOGIC &amp; EMBEDDED SYSTEMS</text>
+      </g>
+
+      <line x1="0" y1="36" x2="292" y2="36" stroke="#cca0a6" stroke-width="1" />
+
+      <!-- Wrapped Directives Section -->
+      <g class="type-in seq-5" transform="translate(0, 42)">
+        <text x="0" y="10" class="text-primary bold" font-size="8" letter-spacing="0.6px">
+          
+            <tspan x="0" dy="0">AUTHORIZATION GRANTED TO CONSTRUCT &amp;</tspan>
+          
+            <tspan x="0" dy="12.5">DEPLOY DISTRIBUTED ARCHITECTURES.</tspan>
+          
+            <tspan x="0" dy="12.5">OPERATOR CERTIFIED FOR HIGH-CONCURRENCY</tspan>
+          
+            <tspan x="0" dy="12.5">SQL UNDER 2026 PROTOCOLS ACT.</tspan>
+          
+        </text>
+      </g>
+
+      <line x1="0" y1="104" x2="292" y2="104" stroke="#e0c2c6" stroke-width="1" />
+
+      <!-- Comms Channels -->
+      <g class="type-in seq-5" transform="translate(0, 114)">
+        <text x="0" y="8" class="text-dim bold" font-size="8" letter-spacing="1px">COMMS // CHANNELS:</text>
+        
+        <text x="0" y="24" class="text-accent bold" font-size="8.8">X (TWITTER):</text>
+        <text x="95" y="24" class="text-primary" font-size="8.8">@Zojka00</text>
+
+        <text x="0" y="38" class="text-accent bold" font-size="8.8">INSTAGRAM:</text>
+        <text x="95" y="38" class="text-primary" font-size="8.8">@zajko00</text>
+
+        <text x="0" y="52" class="text-accent bold" font-size="8.8">LINKEDIN:</text>
+        <text x="95" y="52" class="text-primary" font-size="8.8">md-zayan-95315b40b</text>
+      </g>
+
+      <!-- Barcode -->
+      <g transform="translate(195, 126)" class="fade-in seq-6">
+        
+          <rect x="0" y="0" width="2" height="10" fill="#995c64" />
+        
+          <rect x="6.5" y="0" width="4" height="10" fill="#995c64" />
+        
+          <rect x="13" y="0" width="1" height="10" fill="#995c64" />
+        
+          <rect x="19.5" y="0" width="3" height="10" fill="#995c64" />
+        
+          <rect x="26" y="0" width="2" height="10" fill="#995c64" />
+        
+          <rect x="32.5" y="0" width="5" height="10" fill="#995c64" />
+        
+          <rect x="39" y="0" width="1" height="10" fill="#995c64" />
+        
+          <rect x="45.5" y="0" width="3" height="10" fill="#995c64" />
+        
+          <rect x="52" y="0" width="4" height="10" fill="#995c64" />
+        
+          <rect x="58.5" y="0" width="2" height="10" fill="#995c64" />
+        
+          <rect x="65" y="0" width="3" height="10" fill="#995c64" />
+        
+          <rect x="71.5" y="0" width="1" height="10" fill="#995c64" />
+        
+          <rect x="78" y="0" width="2" height="10" fill="#995c64" />
+        
+          <rect x="84.5" y="0" width="5" height="10" fill="#995c64" />
+        
+      </g>
+    </g>
+
+    <!-- ================= BOTTOM SPAN: ECG TELEMETRY & FOOTER ================= -->
+    <g class="term-font" transform="translate(38, 370)">
+      <line x1="0" y1="0" x2="804" y2="0" stroke="#cca0a6" stroke-width="1.5" />
+
+      <g class="type-in seq-6">
+        <text x="0" y="16" class="text-dim bold" font-size="8.5" letter-spacing="1.5px">BASELINE TELEMETRY: [CELLS WITHIN CELLS: INTERLINKED]</text>
+      </g>
+      
+      <!-- Ghost Pulse Path -->
+      <path d="M 0 34 L 140 34 L 155 20 L 170 48 L 185 34 L 380 34 L 395 14 L 410 52 L 425 34 L 804 34" 
+            fill="none" stroke="#cca0a6" stroke-width="1.2" opacity="0.4" />
+
+      <!-- Active Looping ECG Sweep -->
+      <path class="ecg-line pulse-glow" d="M 0 34 L 140 34 L 155 20 L 170 48 L 185 34 L 380 34 L 395 14 L 410 52 L 425 34 L 804 34" 
+            fill="none" stroke="#dc2626" stroke-width="1.8" />
+
+      <g class="type-in seq-6">
+        <text x="0" y="54" class="text-dim bold" font-size="8" letter-spacing="1px">STATUS: BASELINE VERIFIED // PRIVILEGE: ROOT ARCHITECT</text>
+      </g>
+    </g>
+
+    <!-- Global Footer -->
+    <g class="term-font type-in seq-6">
+      <line x1="38" y1="465" x2="842" y2="465" stroke="#cca0a6" stroke-width="1" />
+      <text x="440" y="482" text-anchor="middle" class="text-dim" font-size="8.5" letter-spacing="2px">
+        PROPERTY OF LOS ANGELES POLICE DEPT // SYNTHETIC DETECTION UNIT #2049
+      </text>
+    </g>
+
+  </g>
+  <!-- ================= END MASKED CONTENT LAYER ================= -->
+
+  <!-- ================= ACTIVE LASER SCANNING BEAM ================= -->
+  <g class="laser-scanner" pointer-events="none">
+    <rect x="22" y="-18" width="836" height="36" fill="url(#beamGlow)" />
+    <rect x="20" y="-1" width="840" height="2.5" fill="url(#lineFlare)" />
+    <path d="M 18 -4 L 28 0 L 18 4 Z" fill="#ef4444" />
+    <path d="M 862 -4 L 852 0 L 862 4 Z" fill="#ef4444" />
+  </g>
+
+</svg>
