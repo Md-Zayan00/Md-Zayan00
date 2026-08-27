@@ -1,9 +1,12 @@
-name: Generate Profile Badge
+name: Generate Profile Badges & Pacman Grid
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # Runs every Sunday at midnight UTC
-  workflow_dispatch: # Allows manual trigger from Actions tab
+    - cron: '0 0 * * *' # Refreshes daily at midnight UTC
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -23,16 +26,26 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Generator
+      # Step Needed for Puppeteer to run in Headless Ubuntu
+      - name: Install Chrome dependencies
+        run: sudo apt-get install -y libgbm-dev
+
+      - name: Generate Blade Runner Badge
         run: node generate.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.repository_owner }}
 
-      - name: Commit and Push Changes
+      - name: Generate Animated Pacman Matrix
+        run: node generate-pacman-matrix.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.repository_owner }}
+
+      - name: Commit and Push SVGs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dark.svg light.svg
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: sync console badge [skip ci]"
+          git add dark.svg light.svg pacman-grid-animated-dark.svg pacman-grid-animated-light.svg
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: refresh dynamic profile assets [skip ci]"
           git push

@@ -1,7 +1,19 @@
+<!-- Blade Runner / Cyberpunk Terminal Console Header -->
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./light.svg">
     <img alt="Blade Runner Terminal Console" src="./dark.svg" width="100%">
+  </picture>
+</div>
+
+<br/>
+
+<!-- Animated Pacman Contribution Matrix (Puppeteer Rendered) -->
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./pacman-grid-animated-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./pacman-grid-animated-light.svg">
+    <img alt="Pacman Contribution Matrix" src="./pacman-grid-animated-dark.svg" width="100%">
   </picture>
 </div>
