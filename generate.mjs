@@ -79,22 +79,35 @@ async function processDitheredAvatar(imageBuffer, width = 215, height = 260) {
   }
 }
 
+// Fetch avatar directly from the user's live GitHub profile
 async function fetchAvatarBuffer() {
-  try {
-    if (GITHUB_TOKEN) {
-      const res = await axios.get(`https://api.github.com/users/${USERNAME}`, {
-        headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'User-Agent': 'Badge-Gen' }
-      });
-      if (res.data?.avatar_url) {
-        const img = await axios.get(res.data.avatar_url, { responseType: 'arraybuffer' });
-        return Buffer.from(img.data);
-      }
-    }
-  } catch (e) {
-    console.warn('Could not fetch avatar online, checking local avatar.png...');
+  const headers = { 'User-Agent': 'Badge-Gen' };
+  if (GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
   }
-  if (fs.existsSync('./avatar.png')) return fs.readFileSync('./avatar.png');
-  return null;
+
+  try {
+    // 1. Fetch live avatar URL from GitHub API
+    console.log(`Querying GitHub API for ${USERNAME}'s profile picture...`);
+    const res = await axios.get(`https://api.github.com/users/${USERNAME}`, { headers });
+    
+    if (res.data?.avatar_url) {
+      const imgRes = await axios.get(res.data.avatar_url, { responseType: 'arraybuffer' });
+      return Buffer.from(imgRes.data);
+    }
+  } catch (err) {
+    console.warn(`GitHub API request failed (${err.message}), attempting direct avatar endpoint...`);
+  }
+
+  try {
+    // 2. Fallback directly to public raw redirect: https://github.com/<username>.png
+    const fallbackUrl = `https://github.com/${USERNAME}.png?size=460`;
+    const imgRes = await axios.get(fallbackUrl, { responseType: 'arraybuffer' });
+    return Buffer.from(imgRes.data);
+  } catch (e) {
+    console.error('Could not fetch GitHub profile picture:', e.message);
+    return null;
+  }
 }
 
 function renderBadgeSvg(avatarBase64, theme = 'dark') {
@@ -281,7 +294,7 @@ function renderBadgeSvg(avatarBase64, theme = 'dark') {
 
     <!-- ================= 3-COLUMN MAIN BODY ================= -->
 
-    <!-- COLUMN 1: AVATAR & IDENTIFICATION (X: 38 -> 255) -->
+    <!-- COLUMN 1: LIVE GITHUB AVATAR & IDENTIFICATION (X: 38 -> 255) -->
     <g class="term-font">
       <rect x="38" y="108" width="215" height="260" fill="${palette.panel}" stroke="${palette.border}" stroke-width="1.5" />
       
@@ -386,7 +399,7 @@ function renderBadgeSvg(avatarBase64, theme = 'dark') {
 
       <line x1="0" y1="46" x2="377" y2="46" stroke="${palette.border}" stroke-width="1" />
 
-      <!-- Highly Readable Directives / Description -->
+      <!-- Directives -->
       <g class="type-in seq-5" transform="translate(0, 56)">
         <text x="0" y="14" class="text-primary bold" font-size="12.5" letter-spacing="0.8px">
           ${wrappedDirectives.map((line, idx) => `
@@ -397,7 +410,7 @@ function renderBadgeSvg(avatarBase64, theme = 'dark') {
 
       <line x1="0" y1="172" x2="377" y2="172" stroke="${palette.borderDim}" stroke-width="1" />
 
-      <!-- Comms Channels (Enlarged) -->
+      <!-- Comms Channels -->
       <g class="type-in seq-5" transform="translate(0, 184)">
         <text x="0" y="12" class="text-dim bold" font-size="11.5" letter-spacing="1px">COMMS // CHANNELS:</text>
         
@@ -464,19 +477,18 @@ function renderBadgeSvg(avatarBase64, theme = 'dark') {
 
 async function main() {
   try {
-    console.log('Fetching avatar stream for user: Md-Zayan00...');
     const avatarBuffer = await fetchAvatarBuffer();
     
     let avatarBase64 = null;
     if (avatarBuffer) {
-      console.log('Synthesizing pure monochrome 1-bit dithered portrait (Large Viewport)...');
+      console.log('Synthesizing 1-bit dithered portrait from live GitHub profile picture...');
       avatarBase64 = await processDitheredAvatar(avatarBuffer, 215, 260);
     }
 
     fs.writeFileSync('dark.svg', renderBadgeSvg(avatarBase64, 'dark'));
     fs.writeFileSync('light.svg', renderBadgeSvg(avatarBase64, 'light'));
 
-    console.log('✓ Successfully generated large-scale dark.svg & light.svg (1120x660 px)');
+    console.log('✓ Successfully generated dark.svg & light.svg with live GitHub avatar.');
   } catch (err) {
     console.error('Error generating badge:', err.message);
   }
